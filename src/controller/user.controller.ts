@@ -98,7 +98,7 @@ try {
     console.log(userList)
     res.send(userList)
 } catch (error: any) {
-    res.status(500).send(error.message)
+    res.status(statusCode.ServerError).send(error.message)
 }
 //res.send("hello")
   
