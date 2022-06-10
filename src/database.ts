@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript"
 
 export const sequlize = new Sequelize(
-   'db_ts',
+   'db_restaurant',
    'root',
    '', {
    host: 'localhost',

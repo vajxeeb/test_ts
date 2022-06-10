@@ -6,6 +6,7 @@ import {
     Column,
     AllowNull,
     NotEmpty,
+    DataType,
 } from "sequelize-typescript";
 
 @Table(

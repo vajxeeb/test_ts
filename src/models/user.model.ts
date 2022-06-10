@@ -7,25 +7,16 @@ import {
     AllowNull,
     NotEmpty,
     ForeignKey,
-    HasMany,
-    HasOne,
     DataType,
     BelongsTo,
 } from "sequelize-typescript";
-import Role from "./role.model";
 
-// export interface UserI{
-//     id?: number | null
-//     first_name: string
-//     last_name: string
-//     email: string
-//     password: string
-// }
+import  Role  from "./role.model";
 
 @Table(
     {
         tableName: "tbl_user",
-        timestamps: false
+        timestamps: true
     }
 )
 export default class User extends Model {
@@ -37,26 +28,13 @@ export default class User extends Model {
 
     @AllowNull(false)
     @NotEmpty
-    @Column({type: DataType.STRING(50)})
-    first_name!: string
+    @Column({ type: DataType.STRING(20), unique: true })
+    username!: string;
 
     @AllowNull(false)
     @NotEmpty
-    @Column({type: DataType.STRING(50)})
-    last_name!: string;
-
-    @AllowNull(false)
-    @NotEmpty
-    @Column({type: DataType.STRING(20), unique: true})
-    email!: string;
-
-    @AllowNull(false)
-    @NotEmpty
-    @Column({type: DataType.STRING(20)})
+    @Column({ type: DataType.STRING(20) })
     password!: string;
-    @AllowNull(true)
-    @Column({type: DataType.STRING(20)})
-    confirm_password!: string;
 
     //////create foreignkey with role//////
     @ForeignKey(() => Role)
@@ -64,5 +42,11 @@ export default class User extends Model {
     role_id!: number;
     //////create associations////////////
     @BelongsTo(() => Role)
-     role!: Role;
+    role!: Role;
+
+    ///delete user status true mean deleted false mean not delete yet.
+    @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false, })
+    del!: boolean
+
+
 }

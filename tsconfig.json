@@ -8,7 +8,7 @@
        "experimentalDecorators":true,
        "noImplicitUseStrict":false,
        "outDir":"dist/",
-       "baseUrl":"src/app.ts",
+       "baseUrl":"src/server.ts",
        "listFiles":false,
        "noEmitHelpers":false,
        "noImplicitReturns": true,

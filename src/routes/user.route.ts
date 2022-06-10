@@ -1,14 +1,14 @@
 const express = require('express')
 const router = express.Router()
-const userController = require('../controller/user.controller')
+import { UserController } from '../controller/user.controller';
+import { UserPath } from '../services/path';
 
 
-router.get('/findUser', userController.getUser)
-
-router.delete('/user/:id', userController.deleteUser)
-
-router.post('/adduser', userController.addUser)
-
-router.delete('/user/:id', userController.deleteUser)
+router.post(UserPath.add, UserController.add)
+router.post(UserPath.login, UserController.login)
+router.get(UserPath.findAll, UserController.findAll)
+router.get(UserPath.findOne, UserController.findOne)
+router.put(UserPath.update, UserController.update)
+router.delete(UserPath.delete, UserController.delete)
 
 module.exports = router
