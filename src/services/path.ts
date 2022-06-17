@@ -2,32 +2,38 @@
 export enum UserPath {
     add = "/user/add",
     update = "/user/update",
-    login = "/user/login",
     delete = "/user/delete",
-    findOne = "/user/findOne",
-    findAll = "/user/findAll"
+    getOne = "/user/getOne",
+    getAll = "/user/getall"
 }
-
+export enum AuthPath {
+    login = "/login",
+}
 export enum RolePath {
     add = "/role/add",
-    findAll = "/role/findAll",
+    getAll = "/role/getall",
     update = "/role/update",
     delete = "/role/delete",
 }
-
 export enum TypePath {
     add = "/type/add",
     update = "/type/update",
     delete = "/type/delete",
-    findOne = "/type/findOne",
-    findAll = "/type/findAll"
+    getOne = "/type/getone",
+    getAll = "/type/getall"
 
 }
 export enum UnitPath {
     add = "/unit/add",
     update = "/unit/update",
     delete = "/unit/delete",
-    findOne = "/unit/findOne",
-    findAll = "/unit/findAll"
-
+    getOne = "/unit/getone",
+    getAll = "/unit/getall"
+}
+export enum ProductPath {
+    add = "/product/add",
+    update = "/product/update",
+    delete = "/product/delete",
+    getOne = "/product/getone",
+    getAll = "/product/getall"
 }

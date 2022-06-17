@@ -1,13 +1,13 @@
-import { message, statusCode } from '../services/message';
+import { Message, Code } from '../services/message';
 import { Request, Response } from 'express'
 import Role from '../models/role.model'
 import User from '../models/user.model'
-const bcrypt = require('bcrypt')
+import Results from './../services/message';
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
+var salt = 10;
 
-require('dotenv').config()
-
-export class UserController {
+export default class UserController {
     //Add new user
     public static add = async (req: Request, res: Response) => {
         try {
@@ -17,11 +17,11 @@ export class UserController {
             const user = await User.findOne({ where: { username } })
 
             if (user != null) {
-                res.status(statusCode.ExistData).json({ message: `${user.username} aleady have enter a new username` })
+                res.status(Code.ExistData).json(Results.Success("Already have this user", {}))
                 return;
             }
             //hash password before add user
-            const hashPassword = await bcrypt.hash(password, 10)
+            const hashPassword = await bcrypt.hash(password, salt)
             //User body 
             const addUser = {
                 username: username,
@@ -30,56 +30,16 @@ export class UserController {
             }
             //Add user
             const createUser: User = await User.create(addUser)
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: createUser
-            })
-        } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
-        }
-    }
-    //Login
-    public static login = async (req: Request, res: Response) => {
-
-        try {
-            const { username, password } = req.body
-            const user = await User.findOne({ where: { username } })
-            if (user === null) {
-                res.status(statusCode.Notfound).json({ message: message.Notfound + ' user ' + username })
-                return;
-            }
-                if (! await bcrypt.compare(password, user.password)) {
-                    const token = await jwt.sign({ user_id: user.id, username },
-                        'screkey',
-                        {
-                            expiresIn: "24h",
-
-                        }
-                    )
-
-                    res.status(statusCode.Ok).json({
-                        message: message.Ok,
-                        access_token: token,
-                        data: user
-                    })
-                    return;
-                }
-
-                res.status(statusCode.PasswordIncorrect).json({
-                    message: message.PasswordIncorrect
-                })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, createUser))
 
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
-        }
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
 
+        }
     }
+
     //Find all user
-    public static findAll = async (req: Request, res: Response) => {
+    public static getAll = async (req: Request, res: Response) => {
         try {
             const users: User[] = await User.findAll({
                 include: [
@@ -91,18 +51,15 @@ export class UserController {
                 ],
                 where: { del: false }
             })
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: users
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, users))
+
         } catch (error: any) {
-            res.status(500).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
     //Find all user
-    public static findOne = async (req: Request, res: Response) => {
+    public static getOne = async (req: Request, res: Response) => {
         try {
 
             const users = await User.findAll({
@@ -115,14 +72,11 @@ export class UserController {
                 ],
                 where: { del: false, id: req.query }
             })
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: users
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, users))
+
         } catch (error: any) {
-            res.status(500).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
     //Delete user by id
@@ -135,18 +89,15 @@ export class UserController {
             await User.update({ del: true }, { where: { id } })
 
             if (deleteUser == null) {
-                res.status(statusCode.Notfound).json({ message: message.Notfound })
+                res.status(Code.Notfound).json(Results.Success(Message.Notfound, {}))
                 return;
             }
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: deleteUser
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, deleteUser))
+
 
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
 
@@ -158,19 +109,15 @@ export class UserController {
             await User.update({ ...req.body }, { where: { id } })
             const updateUser: User | null = await User.findByPk(id)
             if (updateUser === null) {
-                res.status(statusCode.Notfound).send({
-                    message: message.Notfound + id,
-                })
+                res.status(Code.Notfound).json(Results.Success(Message.Notfound, {}))
+
                 return;
             }
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: updateUser
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, updateUser))
+
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
 

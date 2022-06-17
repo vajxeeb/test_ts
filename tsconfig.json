@@ -11,9 +11,16 @@
        "baseUrl":"src/server.ts",
        "listFiles":false,
        "noEmitHelpers":false,
-       "noImplicitReturns": true,
+       "noImplicitReturns": false,
        "strict": true,
        "suppressImplicitAnyIndexErrors": false,
+       "allowSyntheticDefaultImports": true,
+    },
+    "entryFile": "src/server.ts",
+    "noImplicitAdditionalProperties": "throw-on-extras",
+    "spec": {
+      "outputDirectory": "public",
+      "specVersion": 3
     },
     "include":[ 
        "src/**/*"

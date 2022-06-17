@@ -3,15 +3,18 @@ import {
     Model,
     Column,
     DataType,
-    AutoIncrement,
+    ForeignKey,
+    BelongsTo,
 } from "sequelize-typescript";
+import Type from "./type.model";
+import Unit from "./unit.model";
 
 @Table({
-    timestamps: false,
+    timestamps: true,
     tableName: "tbl_product",
 })
 export default class Product extends Model {
-   
+
     @Column({
         type: DataType.STRING(50),
         allowNull: false,
@@ -30,8 +33,27 @@ export default class Product extends Model {
         defaultValue: 0
     })
     quantity!: number;
-    ///delete user status true mean deleted false mean not delete yet.
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+        defaultValue: 0
+    })
+    image!: string;
+    //<===========Create Association========>
+    @ForeignKey(() => Unit)
+    @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    unit_id!: number;
+    @BelongsTo(() => Unit)
+    unit!: Unit;
+
+    @ForeignKey(() => Type)
+    @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    type_id!: number;
+    @BelongsTo(() => Type)
+    type!: Type;
+
+    //<====Delete status:true-> mean deleted, false-> mean not delete yet.]====>
     @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false, })
     del!: boolean
-   
+
 }

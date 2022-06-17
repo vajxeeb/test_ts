@@ -1,29 +1,28 @@
 
 import { Request, Response } from "express"
-import { message, statusCode } from "../services/message"
-import  Unit from "../models/unit.model"
+import { Message, Code } from "../services/message"
+import Unit from "../models/unit.model"
+import Results from "../services/message"
 
-export class RoleController {
-    
+export default class UnitController {
+
     public static add = async (req: Request, res: Response) => {
         try {
-            const unit = await Unit.create({ ...req.query })
-            res.status(statusCode.Ok).json({ message: message.Ok, data: unit })
+            const unit = await Unit.create({ ...req.body })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, unit))
 
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
-    public static findAll = async (req: Request, res: Response) => {
+    public static getAll = async (req: Request, res: Response) => {
         try {
-            const units: Unit[] = await Unit.findAll({where: {del: false}})
-            res.status(statusCode.Ok).json({ message: message.Ok, data: units })
+            const units: Unit[] = await Unit.findAll({ where: { del: false } })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, units))
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
     public static delete = async (req: Request, res: Response) => {
@@ -35,18 +34,15 @@ export class RoleController {
             await Unit.update({ del: true }, { where: { id } })
 
             if (deleteUnit == null) {
-                res.status(statusCode.Notfound).json({ message: message.Notfound })
+                res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
                 return;
             }
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: deleteUnit
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, deleteUnit))
+
 
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
 
@@ -58,19 +54,14 @@ export class RoleController {
             await Unit.update({ ...req.body }, { where: { id } })
             const updateUnit: Unit | null = await Unit.findByPk(id)
             if (updateUnit === null) {
-                res.status(statusCode.Notfound).send({
-                    message: message.Notfound + id,
-                })
+                res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
                 return;
             }
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: updateUnit
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, updateUnit))
+
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
+
         }
     }
 }

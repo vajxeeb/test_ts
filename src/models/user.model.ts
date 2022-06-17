@@ -1,17 +1,6 @@
-import {
-    Model,
-    Table,
-    AutoIncrement,
-    PrimaryKey,
-    Column,
-    AllowNull,
-    NotEmpty,
-    ForeignKey,
-    DataType,
-    BelongsTo,
-} from "sequelize-typescript";
-
-import  Role  from "./role.model";
+import { Model, Table, AutoIncrement, PrimaryKey, Column, AllowNull, NotEmpty, ForeignKey, DataType, BelongsTo }
+    from "sequelize-typescript";
+import Role from "./role.model";
 
 @Table(
     {
@@ -33,18 +22,17 @@ export default class User extends Model {
 
     @AllowNull(false)
     @NotEmpty
-    @Column({ type: DataType.STRING(20) })
+    @Column({ type: DataType.STRING})
     password!: string;
 
-    //////create foreignkey with role//////
+    //<===========Create Association========>
     @ForeignKey(() => Role)
     @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     role_id!: number;
-    //////create associations////////////
     @BelongsTo(() => Role)
     role!: Role;
 
-    ///delete user status true mean deleted false mean not delete yet.
+    //<====Delete status:true-> mean deleted, false-> mean not delete yet.]====>
     @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false, })
     del!: boolean
 

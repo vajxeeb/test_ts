@@ -1,28 +1,25 @@
 
 import { Request, Response } from "express"
-import { message, statusCode } from "../services/message"
-import  Type from "../models/type.model"
+import { Message, Code } from "../services/message"
+import Type from "../models/type.model"
+import Results from './../services/message';
 
-export class TypeController {
+export default class TypeController {
     public static add = async (req: Request, res: Response) => {
         try {
             const type = await Type.create({ ...req.body })
-            res.status(statusCode.Ok).json({ message: message.Ok, data: type })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, type))
 
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
         }
     }
-    public static findAll = async (req: Request, res: Response) => {
+    public static getAll = async (req: Request, res: Response) => {
         try {
-            const types: Type[] = await Type.findAll({where: {del: false}})
-            res.status(statusCode.Ok).json({ message: message.Ok, data: types })
+            const types: Type[] = await Type.findAll({ where: { del: false } })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, types))
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
         }
     }
     public static delete = async (req: Request, res: Response) => {
@@ -34,22 +31,16 @@ export class TypeController {
             await Type.update({ del: true }, { where: { id } })
 
             if (deleteType == null) {
-                res.status(statusCode.Notfound).json({ message: message.Notfound })
+                res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
                 return;
             }
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: deleteType
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, deleteType))
 
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
         }
     }
 
-    //Update user
     public static update = async (req: Request, res: Response) => {
 
         try {
@@ -57,19 +48,13 @@ export class TypeController {
             await Type.update({ ...req.body }, { where: { id } })
             const updateType: Type | null = await Type.findByPk(id)
             if (updateType === null) {
-                res.status(statusCode.Notfound).send({
-                    message: message.Notfound + id,
-                })
+                res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
                 return;
             }
-            res.status(statusCode.Ok).json({
-                message: message.Ok,
-                data: updateType
-            })
+            res.status(Code.Ok).json(Results.Success(Message.Ok, updateType))
+
         } catch (error: any) {
-            res.status(statusCode.ServerError).json({
-                message: error.message
-            })
+            res.status(Code.Error).json(Results.Fail(error.message, {}))
         }
     }
 }
