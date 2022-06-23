@@ -45,8 +45,6 @@ export default class UnitController {
 
         }
     }
-
-    //Update user
     public static update = async (req: Request, res: Response) => {
 
         try {
@@ -54,7 +52,7 @@ export default class UnitController {
             await Unit.update({ ...req.body }, { where: { id } })
             const updateUnit: Unit | null = await Unit.findByPk(id)
             if (updateUnit === null) {
-                res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
+                res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}))
                 return;
             }
             res.status(Code.Ok).json(Results.Success(Message.Ok, updateUnit))

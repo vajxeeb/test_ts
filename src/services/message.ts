@@ -1,26 +1,22 @@
 
 export enum Message {
-
     Ok = "OK",
     Notfound = "NotFound",
-    PasswordIncorrect = "PasswordIncorrect",
+    PasswordIncorrect = "Password Incorrect",
     AuthFailed = "Authorise Token Failed",
     Success = "true",
     Failed = "false"
-
 }
 
 export enum Code {
-
     Ok = 200,
-    Error = 500,
+    RequestData = 400,
+    AuthFailed = 401,
+    ExistData = 402,
     Notfound = 404,
-    ExistData = 400,
-    PasswordIncorrect = 405,
-    AuthFailed = 401
-
+    Incorrect = 405,
+    Error = 500,
 }
-
 export default class Results {
     public static Success(message: string, data: object): object {
         const rs = {

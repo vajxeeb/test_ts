@@ -7,7 +7,7 @@ import TypeController from "../controller/type.controller";
 import UnitController from "../controller/unit.controller";
 import Auth from "../middleware/auth";
 import CheckAuth from "../middleware/checkauth";
-
+import Table from '../controller/table.controller'
 import {
   TypePath,
   UnitPath,
@@ -15,6 +15,7 @@ import {
   ProductPath,
   RolePath,
   AuthPath,
+  TablePath
 } from "../services/path";
 
 //<============== Auth =========================>
@@ -42,9 +43,21 @@ router.post(TypePath.update, CheckAuth.auth, TypeController.update);
 router.post(TypePath.delete, CheckAuth.auth, TypeController.delete);
 //<============== Product ======================>
 router.post(ProductPath.add, CheckAuth.auth, ProductController.add);
-router.post(ProductPath.getAll, CheckAuth.auth, ProductController.getAll);
+router.post(ProductPath.getAll, ProductController.getAll);
 router.post(ProductPath.getOne, CheckAuth.auth, ProductController.getOne);
+router.post(ProductPath.getPage, CheckAuth.auth, ProductController.getPage);
 router.post(ProductPath.update, CheckAuth.auth, ProductController.update);
 router.post(ProductPath.delete, CheckAuth.auth, ProductController.delete);
+
+//<============== Table ======================>
+router.post(TablePath.add, Table.add);
+router.post(TablePath.getAll, Table.getAll);
+router.post(TablePath.getOne, Table.getOne);
+router.post(TablePath.getOpen, Table.getOpenTable);
+router.post(TablePath.getEmpty, Table.getEmptyTable);
+router.post(TablePath.update, Table.update);
+router.post(TablePath.delete, Table.delete);
+router.post(TablePath.Open, Table.open);
+router.post(TablePath.Close, Table.close);
 
 module.exports = router;

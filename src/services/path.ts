@@ -35,5 +35,17 @@ export enum ProductPath {
     update = "/product/update",
     delete = "/product/delete",
     getOne = "/product/getone",
-    getAll = "/product/getall"
+    getAll = "/product/getall",
+    getPage = "/product/getpage"
+}
+export enum TablePath {
+    add = "/table/add",
+    update = "/table/update",
+    delete = "/table/delete",
+    getOne = "/table/getone",
+    getAll = "/table/getall",
+    getOpen = "/table/getopen",
+    getEmpty = "/table/getempty",
+    Open = "/table/open",
+    Close = "/table/close"
 }
