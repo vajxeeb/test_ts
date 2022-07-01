@@ -42,10 +42,16 @@ export enum TablePath {
     add = "/table/add",
     update = "/table/update",
     delete = "/table/delete",
-    getOne = "/table/getone",
+    getSearch = "/table/getsearch",
     getAll = "/table/getall",
-    getOpen = "/table/getopen",
+    getFilter = "/table/getfilter",
     getEmpty = "/table/getempty",
+    getBook = "/table/getbook",
     Open = "/table/open",
-    Close = "/table/close"
+    Close = "/table/close",
+    Book = "/table/book"
+
+}
+export enum BillPath {
+    bill = '/bill'
 }

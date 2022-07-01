@@ -5,6 +5,8 @@ import {
     DataType,
     ForeignKey,
     BelongsTo,
+    AutoIncrement,
+    PrimaryKey,
 } from "sequelize-typescript";
 import Type from "./type.model";
 import Unit from "./unit.model";
@@ -15,6 +17,10 @@ import Unit from "./unit.model";
 })
 export default class Product extends Model {
 
+    @AutoIncrement
+    @PrimaryKey
+    @Column
+    product_id?: number
     @Column({
         type: DataType.STRING(50),
         allowNull: false,

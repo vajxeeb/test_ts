@@ -42,10 +42,11 @@ export default class ProductController {
       res.status(Code.Error).json(Results.Fail(error.message, {}))
     }
   };
+
   public static getOne = async (req: Request, res: Response) => {
     try {
       const delCause = { del: false };
-      const { id } = req.query;
+      const { product_id } = req.query;
       const product: Product | null = await Product.findOne({
         include: [
           {
@@ -59,7 +60,7 @@ export default class ProductController {
             where: delCause,
           },
         ],
-        where: { del: false, id: id },
+        where: { del: false, product_id: product_id },
       });
       if (product === null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));
@@ -70,28 +71,40 @@ export default class ProductController {
       res.status(Code.Error).json(Results.Fail(error.message, {}))
     }
   };
+
   public static getPage = async (req: Request, res: Response) => {
     try {
       const delCause = { del: false };
       const { page, size } = req.query
+      let Query: Object = {}
+      if ((page > 0 && page != undefined && page != NaN) && (size > 0 && size != undefined && size != NaN)) {
+        Query = {
+          offset: parseInt(page), limit: parseInt(size),
+          include: [{ model: Type, required: true, where: delCause },
+          {
+            model: Unit, required: true, where: delCause
+          }], where: delCause,
+        }
+      } else {
+        Query = {
+          include: [
+            {
+              model: Type,
+              required: true,
+              where: delCause,
+            },
+            {
+              model: Unit,
+              required: true,
+              where: delCause,
+            },
+          ],
+          where: delCause,
+        }
+      }
 
-      const products: Product[] = await Product.findAll({
-        offset: parseInt(page),
-        limit: parseInt(size),
-        include: [
-          {
-            model: Type,
-            required: true,
-            where: delCause,
-          },
-          {
-            model: Unit,
-            required: true,
-            where: delCause,
-          },
-        ],
-        where: delCause,
-      });
+      const products: Product[] = await Product.findAll(Query);
+
       res.status(Code.Ok).json(Results.Success(Message.Ok, products));
 
     } catch (error: any) {
@@ -100,9 +113,9 @@ export default class ProductController {
   };
   public static delete = async (req: Request, res: Response) => {
     try {
-      const { id } = req.query;
-      const deleteProduct: Product | null = await Product.findByPk(id);
-      await Product.update({ del: true }, { where: { id } });
+      const { product_id } = req.query;
+      const deleteProduct: Product | null = await Product.findByPk(product_id);
+      await Product.update({ del: true }, { where: { product_id } });
       if (deleteProduct == null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));
         return;
@@ -115,9 +128,9 @@ export default class ProductController {
 
   public static update = async (req: Request, res: Response) => {
     try {
-      const { id } = req.body;
-      await Product.update({ ...req.body }, { where: { id } });
-      const updateProduct: Product | null = await Product.findByPk(id);
+      const { product_id } = req.body;
+      await Product.update({ ...req.body }, { where: { product_id } });
+      const updateProduct: Product | null = await Product.findByPk(product_id);
       if (updateProduct === null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));
         return;

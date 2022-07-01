@@ -18,7 +18,7 @@ export enum Code {
     Error = 500,
 }
 export default class Results {
-    public static Success(message: string, data: object): object {
+    public static Success(message: string, data: any): object {
         const rs = {
             message: message,
             status: true,
@@ -26,7 +26,7 @@ export default class Results {
         }
         return rs
     }
-    public static Fail(message: string, data: object): object {
+    public static Fail(message: string, data: any): object {
         const rs = {
             message: message,
             status: false,

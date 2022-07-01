@@ -1,0 +1,24 @@
+[2022-06-30T14:54:04.208] [INFO] default - POST1/api/login { username: 'VAXENG', password: '123' }
+[2022-06-30T14:54:04.615] [INFO] default - Response {"message":"OK","status":"true","access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlZBWEVORyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY1NjU3NTY0NCwiZXhwIjoxNjU2NjYyMDQ0fQ.NXfuUbcpAgaUeAN_vHDSTHv0Csb09-8SqjE_GlHZxYE","data":{"id":1,"username":"VAXENG","password":"$2a$10$xKjisTX7TCmNZcOZm8RXjunjWYeypjLUPN2H0eEo7NJrqgwbaKWx6","role_id":1,"del":false,"createdAt":"2022-06-23T14:33:05.000Z","updatedAt":"2022-06-23T14:33:05.000Z","role":{"id":1,"role_name":"admin","del":false,"createdAt":"2022-06-23T14:32:06.000Z","updatedAt":"2022-06-23T14:32:06.000Z"}}}
+[2022-06-30T16:02:22.348] [INFO] default - POST1/api/login { username: 'VAXENG', password: '123' }
+[2022-06-30T16:02:22.560] [INFO] default - Response {"message":"OK","status":"true","access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlZBWEVORyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY1NjU3OTc0MiwiZXhwIjoxNjU2NjY2MTQyfQ.Ka9qK-J5YjGRiq5L74ZLOvVJ3EQMpO3kKpLFIRUFUJg","data":{"id":1,"username":"VAXENG","password":"$2a$10$xKjisTX7TCmNZcOZm8RXjunjWYeypjLUPN2H0eEo7NJrqgwbaKWx6","role_id":1,"del":false,"createdAt":"2022-06-23T14:33:05.000Z","updatedAt":"2022-06-23T14:33:05.000Z","role":{"id":1,"role_name":"admin","del":false,"createdAt":"2022-06-23T14:32:06.000Z","updatedAt":"2022-06-23T14:32:06.000Z"}}}
+[2022-06-30T16:25:00.374] [INFO] default - POST1/api/login { username: 'ປປ', password: 'ປປປ' }
+[2022-06-30T16:25:00.417] [WARN] default - User[ປປ] Not Found
+[2022-06-30T16:25:02.673] [INFO] default - POST1/api/login { username: 'ປປ', password: 'ປປປ' }
+[2022-06-30T16:25:02.682] [WARN] default - User[ປປ] Not Found
+[2022-06-30T16:25:04.569] [INFO] default - POST1/api/login { username: 'ປປ', password: 'ປປປ' }
+[2022-06-30T16:25:04.578] [WARN] default - User[ປປ] Not Found
+[2022-06-30T16:25:07.066] [INFO] default - POST1/api/login { username: 'ປປ', password: 'ປປປ' }
+[2022-06-30T16:25:07.082] [WARN] default - User[ປປ] Not Found
+[2022-06-30T16:25:08.498] [INFO] default - POST1/api/login { username: 'ປປ', password: 'ປປປ' }
+[2022-06-30T16:25:08.512] [WARN] default - User[ປປ] Not Found
+[2022-06-30T16:25:19.685] [INFO] default - POST1/api/login { username: 'VAXENG', password: 'ປປປ' }
+[2022-06-30T16:25:19.894] [WARN] default - ປປປ Incorrect
+[2022-06-30T16:25:22.251] [INFO] default - POST1/api/login { username: 'VAXENG', password: 'ປປປ' }
+[2022-06-30T16:25:22.455] [WARN] default - ປປປ Incorrect
+[2022-06-30T16:25:24.322] [INFO] default - POST1/api/login { username: 'VAXENG', password: 'ປປປ' }
+[2022-06-30T16:25:24.531] [WARN] default - ປປປ Incorrect
+[2022-06-30T16:25:26.004] [INFO] default - POST1/api/login { username: 'VAXENG', password: 'ປປປ' }
+[2022-06-30T16:25:26.219] [WARN] default - ປປປ Incorrect
+[2022-06-30T16:26:20.190] [INFO] default - POST1/api/login { username: 'VAXENG', password: '123' }
+[2022-06-30T16:26:20.427] [INFO] default - Response {"message":"OK","status":"true","access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlZBWEVORyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY1NjU4MTE4MCwiZXhwIjoxNjU2NjY3NTgwfQ.lizVOPn8N6AD6ORxJB5sUJsEDXCKgyAsnybRwxKUwn4","data":{"id":1,"username":"VAXENG","password":"$2a$10$xKjisTX7TCmNZcOZm8RXjunjWYeypjLUPN2H0eEo7NJrqgwbaKWx6","role_id":1,"del":false,"createdAt":"2022-06-23T14:33:05.000Z","updatedAt":"2022-06-23T14:33:05.000Z","role":{"id":1,"role_name":"admin","del":false,"createdAt":"2022-06-23T14:32:06.000Z","updatedAt":"2022-06-23T14:32:06.000Z"}}}

@@ -28,10 +28,10 @@ export default class UnitController {
     public static delete = async (req: Request, res: Response) => {
 
         try {
-            const { id } = req.query
+            const { unit_id } = req.query
 
-            const deleteUnit: Unit | null = await Unit.findByPk(id)
-            await Unit.update({ del: true }, { where: { id } })
+            const deleteUnit: Unit | null = await Unit.findByPk(unit_id)
+            await Unit.update({ del: true }, { where: { unit_id } })
 
             if (deleteUnit == null) {
                 res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
@@ -48,9 +48,9 @@ export default class UnitController {
     public static update = async (req: Request, res: Response) => {
 
         try {
-            const { id } = req.body
-            await Unit.update({ ...req.body }, { where: { id } })
-            const updateUnit: Unit | null = await Unit.findByPk(id)
+            const { unit_id } = req.body
+            await Unit.update({ ...req.body }, { where: { unit_id } })
+            const updateUnit: Unit | null = await Unit.findByPk(unit_id)
             if (updateUnit === null) {
                 res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}))
                 return;

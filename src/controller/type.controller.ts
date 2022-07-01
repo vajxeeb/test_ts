@@ -25,10 +25,10 @@ export default class TypeController {
     public static delete = async (req: Request, res: Response) => {
 
         try {
-            const { id } = req.query
+            const { type_id } = req.query
 
-            const deleteType: Type | null = await Type.findByPk(id)
-            await Type.update({ del: true }, { where: { id } })
+            const deleteType: Type | null = await Type.findByPk(type_id)
+            await Type.update({ del: true }, { where: { type_id } })
 
             if (deleteType == null) {
                 res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
@@ -44,9 +44,9 @@ export default class TypeController {
     public static update = async (req: Request, res: Response) => {
 
         try {
-            const { id } = req.body
-            await Type.update({ ...req.body }, { where: { id } })
-            const updateType: Type | null = await Type.findByPk(id)
+            const { type_id } = req.body
+            await Type.update({ ...req.body }, { where: { type_id } })
+            const updateType: Type | null = await Type.findByPk(type_id)
             if (updateType === null) {
                 res.status(Code.Ok).json(Results.Fail(Message.Notfound, {}))
                 return;
