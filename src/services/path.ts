@@ -55,3 +55,19 @@ export enum TablePath {
 export enum BillPath {
     bill = '/bill'
 }
+
+export enum MenuPath {
+    add = "/menu/add",
+    update = "/menu/update",
+    delete = "/menu/delete",
+    getOne = "/menu/getone",
+    getAll = "/menu/getall",
+}
+
+export enum MenuTypePath {
+    add = "/menutype/add",
+    update = "/menutype/update",
+    delete = "/menutype/delete",
+    getOne = "/menutype/getone",
+    getAll = "/menutype/getall",
+}

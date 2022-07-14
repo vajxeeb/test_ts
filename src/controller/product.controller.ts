@@ -71,7 +71,6 @@ export default class ProductController {
       res.status(Code.Error).json(Results.Fail(error.message, {}))
     }
   };
-
   public static getPage = async (req: Request, res: Response) => {
     try {
       const delCause = { del: false };
@@ -129,7 +128,7 @@ export default class ProductController {
   public static update = async (req: Request, res: Response) => {
     try {
       const { product_id } = req.body;
-      await Product.update({ ...req.body }, { where: { product_id } });
+      await Product.update({ ...req.body }, { where: { product_id }});
       const updateProduct: Product | null = await Product.findByPk(product_id);
       if (updateProduct === null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));

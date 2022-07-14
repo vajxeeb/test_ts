@@ -126,7 +126,7 @@
  * @swagger
  * /api/user/delete:
  *  post:
- *   summary: Update User
+ *   summary: Delete User
  *   tags: [User]
  *   parameters:
  *    - in: query

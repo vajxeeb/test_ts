@@ -23,9 +23,9 @@ export const option = {
         swagger: "0.0",
         servers: [
             {
-                url: `http://localhost:7000`
+                url: `http://172.22.4.50:7000`
             }
         ],
     },
-    apis: ['./src/docs/*.ts']
+    apis: ['./src/api-docs/*.ts']
 }

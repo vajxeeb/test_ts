@@ -13,7 +13,7 @@ export default class Auth {
     public static login = async (req: Request, res: Response) => {
         try {
 
-            log.info(`${req.method}${req.httpVersionMinor}${req.originalUrl}`, req.body);
+            log.info(`${req.method}${req.ip}${req.originalUrl}`, req.body);
 
             const { username, password } = req.body
             const user: User | null = await User.findOne({
@@ -28,9 +28,9 @@ export default class Auth {
             if (user === null) {
                 res.status(Code.Notfound).json({
                     message: Message.Notfound,
-                    status: Message.Failed
+                    status: false
                 })
-                log.warn(`User[${username}]`, 'Not Found')
+                log.warn('Username Notfound')
                 return;
             }
             if (await bcrypt.compare(password, user.password)) {
@@ -38,29 +38,29 @@ export default class Auth {
                     process.env.JWT_KEY,
                     {
                         expiresIn: "24h",
-
                     }
                 )
                 const result = {
-                    message: Message.Ok,
-                    status: Message.Success,
+                    message: Message.Logined,
+                    status: true,
+                    statusCode: 200,
                     access_token: token,
                     data: user
                 }
                 res.status(Code.Ok).json(result)
-                log.info(`Response`, JSON.stringify(result))
+                log.info(JSON.stringify(result))
                 return;
             }
-            log.warn(password, 'Incorrect')
+            log.warn('Password Incorrect')
             res.status(Code.Incorrect).json({
                 message: Message.PasswordIncorrect,
-                status: Message.Failed,
+                status: false,
             })
         } catch (error: any) {
-            log.error(`Response`, error.message)
+            log.error(error.message)
             res.status(Code.Error).json({
                 message: error.message,
-                status: Message.Failed,
+                status: false,
             })
         }
     }

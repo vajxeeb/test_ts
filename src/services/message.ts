@@ -1,13 +1,14 @@
 
 export enum Message {
     Ok = "OK",
-    Notfound = "NotFound",
+    Created ="Created Successfull ✔",
+    Updated = "Updated Successfull ✔",
+    Deleted = "Deleted Successfull ✔",
+    Notfound = "NotFound 🙌",
     PasswordIncorrect = "Password Incorrect",
     AuthFailed = "Authorise Token Failed",
-    Success = "true",
-    Failed = "false"
+    Logined = "Logined Successfull ✔"
 }
-
 export enum Code {
     Ok = 200,
     RequestData = 400,
