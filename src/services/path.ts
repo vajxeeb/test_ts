@@ -53,7 +53,9 @@ export enum TablePath {
 
 }
 export enum BillPath {
-    bill = '/bill'
+    getbill = '/bill/getbill',
+    cancel = '/bill/cancel',
+    getbilldetail = "/bill/getbilldetail"
 }
 
 export enum MenuPath {
@@ -70,4 +72,7 @@ export enum MenuTypePath {
     delete = "/menutype/delete",
     getOne = "/menutype/getone",
     getAll = "/menutype/getall",
+}
+export enum SalePath {
+    add = "/sale/add",
 }

@@ -1,7 +1,8 @@
-import { Model, Table, AutoIncrement, PrimaryKey, Column, AllowNull, NotEmpty, ForeignKey, DataType, BelongsTo }
+import { Model, Table, AutoIncrement, PrimaryKey, Column, AllowNull, NotEmpty, ForeignKey, DataType, BelongsTo, BeforeCreate, BeforeUpdate, AfterCreate, AfterUpdate }
     from "sequelize-typescript";
 import Role from "./role.model";
-
+import CustomDate from './../services/date';
+const bcrypt = require('bcrypt')
 @Table(
     {
         tableName: "tbl_user",
@@ -13,7 +14,7 @@ export default class User extends Model {
     @AutoIncrement
     @PrimaryKey
     @Column
-    id?: number
+    user_id?: number
 
     @AllowNull(false)
     @NotEmpty
@@ -36,5 +37,24 @@ export default class User extends Model {
     @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false, })
     del!: boolean
 
-
+    @BeforeCreate
+    static createAt(user: User){
+        user.createdAt = CustomDate.getDate();
+        user.updatedAt = CustomDate.getDate();
+        // console.log(user)
+        // console.log("Create Sucess")
+        // console.log(user.createdAt);
+        // console.log(user.updatedAt)
+    }
+    // @BeforeUpdate
+    // static async updateAt1(user: User){
+    //     user.password  = await bcrypt.hash(user.password, 10);
+    //     user.createdAt = await CustomDate.getDate();
+    //     console.log(user)
+    //     console.log("user password")
+    //     console.log(user.password)
+    //     console.log("updateAt")
+    //     console.log(user.updatedAt)
+    //     console.log(CustomDate.getDate())
+    // }
 }

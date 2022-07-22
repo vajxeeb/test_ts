@@ -5,11 +5,8 @@ import {
     DataType,
     AutoIncrement,
     PrimaryKey,
-    UpdatedAt,
-    Sequelize,
 } from "sequelize-typescript";
 import CustomDate from "../services/date";
-import sequelize from "sequelize/types/lib/sequelize";
 @Table({
     timestamps: false,
     tableName: "tbl_table",
@@ -53,10 +50,6 @@ export default class _Table extends Model {
     @Column({
         type: 'TIMESTAMP',
         allowNull: true,
-        defaultValue: Sequelize.literal(
-            "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-          )
-       // defaultValue: CustomDate.getDate()
     })
     updateAt!: Date;
     //<====Delete status:true-> mean deleted, false-> mean not delete yet.]====>

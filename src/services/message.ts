@@ -7,7 +7,8 @@ export enum Message {
     Notfound = "NotFound 🙌",
     PasswordIncorrect = "Password Incorrect",
     AuthFailed = "Authorise Token Failed",
-    Logined = "Logined Successfull ✔"
+    Logined = "Logined Successfull ✔",
+    Error = "Occure some error while process. Error code 500 🤣"
 }
 export enum Code {
     Ok = 200,
@@ -16,13 +17,15 @@ export enum Code {
     ExistData = 402,
     Notfound = 404,
     Incorrect = 405,
+    NoContent = 409,
+    NotSuccess = 300,
     Error = 500,
 }
 export default class Results {
-    public static Success(message: string, data: any): object {
+    public static getResponse(message: string, status: number, data: any): object {
         const rs = {
             message: message,
-            status: true,
+            status: status,
             data: data
         }
         return rs
@@ -31,6 +34,14 @@ export default class Results {
         const rs = {
             message: message,
             status: false,
+            data: data
+        }
+        return rs
+    }
+    public static Success(message: string, data: any): object {
+        const rs = {
+            message: message,
+            status: true,
             data: data
         }
         return rs

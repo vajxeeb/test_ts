@@ -6,15 +6,13 @@ import { Message, Code } from "../services/message";
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 require('dotenv').config({ path: __dirname + '/.env' });
-const logger = require('../config/logger')
-const log = logger.getLogger();
+const LOGGER = require('../config/logger')
+const logger = LOGGER.getLogger();
 
 export default class Auth {
     public static login = async (req: Request, res: Response) => {
         try {
-
-            log.info(`${req.method}${req.ip}${req.originalUrl}`, req.body);
-
+            logger.info(`${req.method}${req.originalUrl}`, req.body);
             const { username, password } = req.body
             const user: User | null = await User.findOne({
                 include: [
@@ -30,7 +28,7 @@ export default class Auth {
                     message: Message.Notfound,
                     status: false
                 })
-                log.warn('Username Notfound')
+                logger.warn('Username Notfound')
                 return;
             }
             if (await bcrypt.compare(password, user.password)) {
@@ -42,28 +40,30 @@ export default class Auth {
                 )
                 const result = {
                     message: Message.Logined,
-                    status: true,
-                    statusCode: 200,
+                    status: Code.Ok,
                     access_token: token,
                     data: user
                 }
                 res.status(Code.Ok).json(result)
-                log.info(JSON.stringify(result))
+
+                logger.info(JSON.stringify(result))
                 return;
             }
-            log.warn('Password Incorrect')
+            logger.warn('Password incorrect 🤣')
             res.status(Code.Incorrect).json({
                 message: Message.PasswordIncorrect,
                 status: false,
             })
         } catch (error: any) {
-            log.error(error.message)
+            logger.error(error.message)
             res.status(Code.Error).json({
                 message: error.message,
                 status: false,
             })
+
+
         }
     }
 
-   
+
 }

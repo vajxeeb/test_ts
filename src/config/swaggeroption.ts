@@ -20,7 +20,7 @@ export const option = {
         security: [{
             jwt: []
         }],
-        swagger: "0.0",
+        swagger: "0.0.0",
         servers: [
             {
                 url: `http://172.22.4.50:7000`

@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import Role from '../models/role.model'
 import User from '../models/user.model'
 import Results from './../services/message';
+import { sequelize } from './../database';
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 var salt = 10;
@@ -10,6 +11,9 @@ var salt = 10;
 export default class UserController {
     //Add new user
     public static add = async (req: Request, res: Response) => {
+
+        const t = await sequelize.transaction();
+
         try {
 
             const { username, password, role_id } = req.body
@@ -17,7 +21,7 @@ export default class UserController {
             const user = await User.findOne({ where: { username } })
 
             if (user != null) {
-                res.status(Code.ExistData).json(Results.Success("Already have this user", {}))
+                res.status(Code.ExistData).json(Results.Fail("Already have this user", {}))
                 return;
             }
             //hash password before add user
@@ -26,13 +30,18 @@ export default class UserController {
             const addUser = {
                 username: username,
                 password: hashPassword,
-                role_id: role_id
+                role_id: role_id,
+                individualHooks: true
             }
             //Add user
-            const createUser: User = await User.create(addUser)
+            const createUser: User = await User.create(addUser, { transaction: t });
+            t.afterCommit(() => console.log("Commit success."));
+            t.commit();
+
             res.status(Code.Ok).json(Results.Success(Message.Ok, createUser))
 
         } catch (error: any) {
+            t.rollback();
             res.status(Code.Error).json(Results.Fail(error.message, {}))
 
         }
@@ -46,7 +55,7 @@ export default class UserController {
                     {
                         model: Role,
                         attributes: ['id', 'role_name'],
-                        required: true
+                        required: true,
                     }
                 ],
                 where: { del: false }
@@ -55,7 +64,6 @@ export default class UserController {
 
         } catch (error: any) {
             res.status(Code.Error).json(Results.Fail(error.message, {}))
-
         }
     }
     //Find all user
@@ -103,14 +111,13 @@ export default class UserController {
 
     //Update user
     public static update = async (req: Request, res: Response) => {
-
+        //individualHooks: true 
         try {
             const { id } = req.body
-            await User.update({ ...req.body }, { where: { id } })
+            await User.update({ ...req.body }, { where: { id }, })
             const updateUser: User | null = await User.findByPk(id)
             if (updateUser === null) {
                 res.status(Code.Notfound).json(Results.Success(Message.Notfound, {}))
-
                 return;
             }
             res.status(Code.Ok).json(Results.Success(Message.Ok, updateUser))

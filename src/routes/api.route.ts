@@ -20,17 +20,20 @@ import {
   TablePath,
   BillPath,
   MenuPath,
-  MenuTypePath
+  MenuTypePath,
+  SalePath
 } from "../services/path";
 import MenuTypeController from "../controller/menuType.controller";
+import SaleController from './../controller/sale.controller';
 
+const file = require('../config/file') 
 //<============== Auth =========================>
 router.post(AuthPath.login, Auth.login);
 //<============== User =========================>
 router.post(UserPath.add, UserController.add);
 router.post(UserPath.getAll, UserController.getAll);
 router.post(UserPath.getOne, CheckAuth.auth, UserController.getOne);
-router.post(UserPath.update, CheckAuth.auth, UserController.update);
+router.post(UserPath.update,  UserController.update);
 router.post(UserPath.delete, CheckAuth.auth, UserController.delete);
 //<=============== Unit ========================>
 router.post(UnitPath.add,  UnitController.add);
@@ -40,8 +43,8 @@ router.post(UnitPath.delete, UnitController.delete);
 //<============== Role =========================>
 router.post(RolePath.add, RoleController.add);
 router.post(RolePath.getAll, RoleController.getAll);
-router.post(RolePath.update, CheckAuth.auth, RoleController.update);
-router.post(RolePath.delete, CheckAuth.auth, RoleController.delete);
+router.post(RolePath.update, RoleController.update);
+router.post(RolePath.delete, RoleController.delete);
 //<============== Type =========================>
 router.post(TypePath.add, TypeController.add);
 router.post(TypePath.getAll, TypeController.getAll);
@@ -54,7 +57,7 @@ router.post(ProductPath.getOne,  ProductController.getOne);
 router.post(ProductPath.getPage, ProductController.getPage);
 router.post(ProductPath.update, CheckAuth.auth, ProductController.update);
 router.post(ProductPath.delete, CheckAuth.auth, ProductController.delete);
-//<============== Table ======================>
+// Table
 router.post(TablePath.add, Table.add);
 router.post(TablePath.getAll, Table.getAll);
 router.post(TablePath.getSearch, Table.getSearch);
@@ -64,16 +67,22 @@ router.post(TablePath.update, Table.update);
 router.post(TablePath.delete, Table.delete);
 router.post(TablePath.Open, Table.open);
 router.post(TablePath.Close, Table.close);
-//=================bill========================
-router.post(BillPath.bill, BillController.getbill);
-//<============== Menu =========================>
-router.post(MenuPath.add, MenuController.add);
+//Menu
+router.post(MenuPath.add, file.upload.single('menu_image'), MenuController.add);
 router.post(MenuPath.getAll, MenuController.getAll);
 router.post(MenuPath.update, MenuController.update);
 router.post(MenuPath.delete, MenuController.delete);
-//<============== MenuType =========================>
+//MenuType
 router.post(MenuTypePath.add, MenuTypeController.add);
 router.post(MenuTypePath.getAll, MenuTypeController.getAll);
 router.post(MenuTypePath.update, MenuTypeController.update);
 router.post(MenuTypePath.delete, MenuTypeController.delete);
+//sale
+router.post(SalePath.add, SaleController.add);
+//bill
+router.post(BillPath.cancel, BillController.cancel);
+router.post(BillPath.getbill, BillController.getbill);
+router.post(BillPath.getbilldetail, BillController.getbilldetail);
+
+
 module.exports = router;

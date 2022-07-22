@@ -34,21 +34,19 @@ export default class RoleController {
 
       if (deleteRole == null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}))
-
         return;
       }
       res.status(Code.Ok).json(Results.Success(Message.Ok, deleteRole))
-
     } catch (error: any) {
       res.status(Code.Error).json(Results.Fail(error.message, {}))
-
     }
   };
 
   public static update = async (req: Request, res: Response) => {
     try {
+
       const { id } = req.body;
-      await Role.update({ ...req.body }, { where: { id } });
+      await Role.update({ ...req.body }, { where: { id } , individualHooks: true });
       const updateRole: Role | null = await Role.findByPk(id);
       if (updateRole === null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}))
@@ -60,5 +58,6 @@ export default class RoleController {
     } catch (error: any) {
       res.status(Code.Error).json(Results.Fail(error.message, {}))
     }
+
   };
 }
