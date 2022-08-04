@@ -87,7 +87,7 @@ export default class MenuController {
              /*LOG RESPONSE*/ LogRQS.LogRes(Message.Updated,Code.Ok, updateMenu)
         } catch (error: any) {
              /*LOG ERROR*/logger.error(error.message)
-             res.status(Code.Error).json(Results.getResponse(error.message,Code.Error, []))
+             res.status(Code.Error).json(Results.getResponse(error.message, Code.Error, []))
             }
     }
 

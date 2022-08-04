@@ -8,7 +8,7 @@ export enum Message {
     PasswordIncorrect = "Password Incorrect",
     AuthFailed = "Authorise Token Failed",
     Logined = "Logined Successfull ✔",
-    Error = "Occure some error while process. Error code 500 🤣"
+    Error = "Occure some error while processing. Error code 500 🤣"
 }
 export enum Code {
     Ok = 200,
@@ -20,6 +20,7 @@ export enum Code {
     NoContent = 409,
     NotSuccess = 300,
     Error = 500,
+    ApiKeyRequire = 301
 }
 export default class Results {
     public static getResponse(message: string, status: number, data: any): object {

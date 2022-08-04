@@ -1,7 +1,5 @@
 
 
-const PDFDocument = require('pdfkit')
-const fs = require('fs')
 import { Request, Response } from "express"
 import BillDetail from './../models/bill.detail.model';
 import { sequelize } from './../database';
@@ -10,6 +8,7 @@ import { Code, Message } from "../services/message";
 import Results from './../services/message';
 import Bill from './../models/bill.model';
 import User from './../models/user.model';
+import { Query } from "../query/queries";
 const { QueryTypes } = require("sequelize")
 export default class BillController {
 
@@ -74,16 +73,18 @@ export default class BillController {
     }
     public static getbill = async (req: Request, res: Response) => {
         try {
-            const { bill_date, bill_number, cancel } = req.query
+            const { bill_date, bill_number, cancel, page, size } = req.query
             let billCause = {}
             if (bill_number != "" && bill_number != undefined) {
                 billCause = {  cancel: cancel, bill_date: bill_date, bill_number: bill_number }
             } else {
                 billCause = {  cancel: cancel, bill_date: bill_date }
             }
-            const bills: Array<any> = await Bill.findAll(
+            const bills: Bill[] = await Bill.findAll(
                 {
                     attributes: ["bill_id", "bill_number", "bill_price", "bill_date", "bill_time"],
+                    limit: parseInt(size),
+                    offset: parseInt(page),
                     where: billCause,
                 }
             )
@@ -123,7 +124,8 @@ export default class BillController {
                     ]
                 }
             )
-  
+            // const bills = await sequelize.query(Query.getbill, {type: QueryTypes.SELECT})
+            
             res.status(Code.Ok).json(Results.Success(Message.Ok, bills))
         } catch (error: any) {
             res.status(Code.Error).json(Results.Fail(error.message, {}))

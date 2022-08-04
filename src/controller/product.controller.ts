@@ -9,7 +9,7 @@ export default class ProductController {
   public static add = async (req: Request, res: Response) => {
     try {
       if (req.body.price < 0 || req.body.quantity < 0) {
-        res.status(Code.RequestData).json(Results.Fail("Body request", {}))
+        res.status(Code.RequestData).json(Results.Fail("Product price and quantity should be more than or equal to 0", {}))
         return;
       }
       const unit = await Product.create({ ...req.body });

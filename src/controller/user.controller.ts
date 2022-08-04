@@ -4,6 +4,8 @@ import Role from '../models/role.model'
 import User from '../models/user.model'
 import Results from './../services/message';
 import { sequelize } from './../database';
+import { Query } from '../query/queries';
+import { QueryTypes } from 'sequelize/types';
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 var salt = 10;
@@ -60,31 +62,11 @@ export default class UserController {
                 ],
                 where: { del: false }
             })
+           
             res.status(Code.Ok).json(Results.Success(Message.Ok, users))
 
         } catch (error: any) {
             res.status(Code.Error).json(Results.Fail(error.message, {}))
-        }
-    }
-    //Find all user
-    public static getOne = async (req: Request, res: Response) => {
-        try {
-
-            const users = await User.findAll({
-                include: [
-                    {
-                        model: Role,
-                        attributes: ['id', 'role_name'],
-                        required: true
-                    }
-                ],
-                where: { del: false, id: req.query }
-            })
-            res.status(Code.Ok).json(Results.Success(Message.Ok, users))
-
-        } catch (error: any) {
-            res.status(Code.Error).json(Results.Fail(error.message, {}))
-
         }
     }
     //Delete user by id
@@ -101,7 +83,6 @@ export default class UserController {
                 return;
             }
             res.status(Code.Ok).json(Results.Success(Message.Ok, deleteUser))
-
 
         } catch (error: any) {
             res.status(Code.Error).json(Results.Fail(error.message, {}))

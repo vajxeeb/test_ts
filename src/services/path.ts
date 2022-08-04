@@ -21,7 +21,6 @@ export enum TypePath {
     delete = "/type/delete",
     getOne = "/type/getone",
     getAll = "/type/getall"
-
 }
 export enum UnitPath {
     add = "/unit/add",
@@ -50,14 +49,12 @@ export enum TablePath {
     Open = "/table/open",
     Close = "/table/close",
     Book = "/table/book"
-
 }
 export enum BillPath {
     getbill = '/bill/getbill',
     cancel = '/bill/cancel',
     getbilldetail = "/bill/getbilldetail"
 }
-
 export enum MenuPath {
     add = "/menu/add",
     update = "/menu/update",
@@ -65,7 +62,6 @@ export enum MenuPath {
     getOne = "/menu/getone",
     getAll = "/menu/getall",
 }
-
 export enum MenuTypePath {
     add = "/menutype/add",
     update = "/menutype/update",

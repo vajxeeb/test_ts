@@ -3,6 +3,9 @@ import { Request, Response } from "express"
 import User from './../models/user.model';
 import Role from './../models/role.model';
 import { Message, Code } from "../services/message";
+import { sequelize } from "../database";
+import { Query } from "../query/queries";
+import { QueryTypes } from "sequelize";
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 require('dotenv').config({ path: __dirname + '/.env' });

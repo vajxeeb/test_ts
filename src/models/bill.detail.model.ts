@@ -1,4 +1,3 @@
-import { BelongsTo, ForeignKey } from 'sequelize-typescript';
 import {
     Table,
     Model,
@@ -6,10 +5,13 @@ import {
     DataType,
     PrimaryKey,
     AutoIncrement,
+    BelongsTo,
+    ForeignKey
 } from "sequelize-typescript";
 import Product from './product.model';
 import User from './user.model';
 import Bill from './bill.model';
+
 @Table({
     timestamps: true,
     tableName: "tbl_bill_detail",
