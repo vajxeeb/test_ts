@@ -2,7 +2,7 @@
 import { Request, Response } from "express"
 import User from './../models/user.model';
 import Role from './../models/role.model';
-import { Message, Code } from "../services/message";
+import { Message, Code } from "../services/message-statusCode";
 import { sequelize } from "../database";
 import { Query } from "../query/queries";
 import { QueryTypes } from "sequelize";
@@ -28,10 +28,9 @@ export default class Auth {
             })
             if (user === null) {
                 res.status(Code.Notfound).json({
-                    message: Message.Notfound,
+                    message: Message.WrongUsername,
                     status: false
                 })
-                logger.warn('Username Notfound')
                 return;
             }
             if (await bcrypt.compare(password, user.password)) {
@@ -52,9 +51,8 @@ export default class Auth {
                 logger.info(JSON.stringify(result))
                 return;
             }
-            logger.warn('Password incorrect 🤣')
             res.status(Code.Incorrect).json({
-                message: Message.PasswordIncorrect,
+                message: Message.WrongPassword,
                 status: false,
             })
         } catch (error: any) {

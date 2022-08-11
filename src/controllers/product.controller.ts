@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { Code, Message } from "../services/message";
+import { Code, Message } from "../services/message-statusCode";
 import Product from "../models/product.model";
-import Type from "./../models/type.model";
-import Unit from "./../models/unit.model";
-import Results from "../services/message";
+import Type from "../models/type.model";
+import Unit from "../models/unit.model";
+import Results from "../services/message-statusCode";
 
 export default class ProductController {
   public static add = async (req: Request, res: Response) => {
@@ -113,13 +113,13 @@ export default class ProductController {
   public static delete = async (req: Request, res: Response) => {
     try {
       const { product_id } = req.query;
-      const deleteProduct: Product | null = await Product.findByPk(product_id);
+      const deleted: Product | null = await Product.findByPk(product_id);
       await Product.update({ del: true }, { where: { product_id } });
-      if (deleteProduct == null) {
-        res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));
-        return;
-      }
-      res.status(Code.Ok).json(Results.Success(Message.Ok, deleteProduct));
+
+      deleted != null ?
+        res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}))
+        :
+        res.status(Code.Ok).json(Results.Success(Message.Ok, deleted));
     } catch (error: any) {
       res.status(Code.Error).json(Results.Fail(error.message, {}))
     }
@@ -128,13 +128,13 @@ export default class ProductController {
   public static update = async (req: Request, res: Response) => {
     try {
       const { product_id } = req.body;
-      await Product.update({ ...req.body }, { where: { product_id }});
-      const updateProduct: Product | null = await Product.findByPk(product_id);
-      if (updateProduct === null) {
+      const update: Product | null = await Product.findByPk(product_id);
+      await Product.update({ ...req.body }, { where: { product_id } })
+
+      update != null ?
+        res.status(Code.Ok).json(Results.Success(Message.Ok, update))
+        :
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));
-        return;
-      }
-      res.status(Code.Ok).json(Results.Success(Message.Ok, updateProduct));
 
     } catch (error: any) {
       res.status(Code.Error).json(Results.Fail(error.message, {}))

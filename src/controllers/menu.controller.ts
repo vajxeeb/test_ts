@@ -1,8 +1,8 @@
 
 import { Request, Response } from "express"
-import { Message, Code } from "../services/message"
-import Results from './../services/message';
-import Menu from './../models/menu.model.';
+import { Message, Code } from "../services/message-statusCode"
+import Results from '../services/message-statusCode';
+import Menu from '../models/menu.model.';
 import LogRQS from "../services/logRQS";
 const LOGGER = require('../config/logger')
 

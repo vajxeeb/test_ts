@@ -6,7 +6,7 @@ import {
     AutoIncrement,
     PrimaryKey,
 } from "sequelize-typescript";
-import CustomDate from "../services/date";
+import CustomDate from "../services/customdate";
 @Table({
     timestamps: false,
     tableName: "tbl_table",

@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
-import UserController from "../controller/user.controller";
-import ProductController from "../controller/product.controller";
-import RoleController from "../controller/role.controller";
-import TypeController from "../controller/type.controller";
-import UnitController from "../controller/unit.controller";
+import UserController from "../controllers/user.controller";
+import ProductController from "../controllers/product.controller";
+import RoleController from "../controllers/role.controller";
+import TypeController from "../controllers/type.controller";
+import UnitController from "../controllers/unit.controller";
 import Auth from "../middleware/auth";
 import CheckAuth from "../middleware/checkauth";
-import Table from '../controller/table.controller'
-import BillController from './../controller/bill.controller';
-import MenuController from "../controller/menu.controller";
-import MenuTypeController from "../controller/menuType.controller";
-import SaleController from './../controller/sale.controller';
+import Table from '../controllers/table.controller'
+import BillController from '../controllers/bill.controller';
+import MenuController from "../controllers/menu.controller";
+import MenuTypeController from "../controllers/menuType.controller";
+import SaleController from '../controllers/sale.controller';
 import {
   TypePath,
   UnitPath,
@@ -24,9 +24,10 @@ import {
   MenuPath,
   MenuTypePath,
   SalePath
-} from "../services/path";
+} from "../services/paths";
 
-const file = require('../config/file') 
+// const file = require('../config/file') 
+//import upload from '../config/uploadfile'
 //============== Auth =========================
 router.post(AuthPath.login, Auth.login);
 //============== User =========================
@@ -67,7 +68,7 @@ router.post(TablePath.delete, Table.delete);
 router.post(TablePath.Open, Table.open);
 router.post(TablePath.Close, Table.close);
 //================Menu========================
-router.post(MenuPath.add, file.upload.single('menu_image'), MenuController.add);
+//router.post(MenuPath.add, upload.single('menu_image'), MenuController.add);
 router.post(MenuPath.getAll, MenuController.getAll);
 router.post(MenuPath.update, MenuController.update);
 router.post(MenuPath.delete, MenuController.delete);

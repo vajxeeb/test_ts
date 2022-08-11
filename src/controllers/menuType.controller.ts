@@ -1,8 +1,8 @@
 
 import { Request, Response } from "express"
-import { Message, Code } from "../services/message"
-import Results from './../services/message';
-import MenuType from './../models/menuType.model';
+import { Message, Code } from "../services/message-statusCode"
+import Results from '../services/message-statusCode';
+import MenuType from '../models/menuType.model';
 
 export default class MenuTypeController {
     public static add = async (req: Request, res: Response) => {

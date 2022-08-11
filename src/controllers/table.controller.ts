@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { Code, Message } from "../services/message";
-import Results from "../services/message";
-import Table from './../models/table.model';
-import { TableStatus } from "../services/constant";
+import { Code, Message } from "../services/message-statusCode";
+import Results from "../services/message-statusCode";
+import Table from '../models/table.model';
+import { Constants } from "../services/constants";
 //import { Op, Optional } from '@sequelize/core';
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -82,7 +82,7 @@ export default class TableController {
   public static open = async (req: Request, res: Response) => {
     try {
       const { t_id } = req.query;
-      await Table.update({ t_status: TableStatus.OPEN }, { where: { t_id } });
+      await Table.update({ t_status: Constants.OPEN }, { where: { t_id } });
 
       const updateTable: Table | null = await Table.findByPk(t_id);
       if (updateTable === null) {
@@ -99,7 +99,7 @@ export default class TableController {
   public static close = async (req: Request, res: Response) => {
     try {
       const { t_id } = req.query;
-      await Table.update({ t_status: TableStatus.EMPTY }, { where: { t_id } });
+      await Table.update({ t_status: Constants.EMPTY }, { where: { t_id } });
       const updateTable: Table | null = await Table.findByPk(t_id);
       if (updateTable === null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));
@@ -114,7 +114,7 @@ export default class TableController {
   public static book = async (req: Request, res: Response) => {
     try {
       const { t_id } = req.query;
-      await Table.update({ t_status: TableStatus.BOOK }, { where: { t_id } });
+      await Table.update({ t_status: Constants.BOOK }, { where: { t_id } });
       const updateTable: Table | null = await Table.findByPk(t_id);
       if (updateTable === null) {
         res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}));
@@ -130,13 +130,13 @@ export default class TableController {
     try {
       const { t_status } = req.query
       let filter = {}
-      if (t_status == TableStatus.OPEN || t_status == TableStatus.BOOK || t_status == TableStatus.EMPTY) {
+      if (t_status == Constants.OPEN || t_status == Constants.BOOK || t_status == Constants.EMPTY) {
         filter = { del: false, t_status: t_status}
       }
       else {
         filter = { del: false }
       }
-      console.log(TableStatus.OPEN)
+      console.log(Constants.OPEN)
       const table: Table[] = await Table.findAll({
         order: [
           ['t_number', 'asc']
@@ -164,7 +164,7 @@ export default class TableController {
   //   try {
 
   //     const table: Table[] | null = await Table.findAll({
-  //       where: { del: false, t_status: TableStatus.OPEN },
+  //       where: { del: false, t_status: Constants.OPEN },
   //     });
   //     res.status(Code.Ok).json(Results.Success(Message.Ok, table));
   //   } catch (error: any) {
@@ -175,7 +175,7 @@ export default class TableController {
   //   try {
 
   //     const table: Table[] | null = await Table.findAll({
-  //       where: { del: false, t_status: TableStatus.EMPTY },
+  //       where: { del: false, t_status: Constants.EMPTY },
   //     });
 
   //     res.status(Code.Ok).json(Results.Success(Message.Ok, table));
@@ -186,7 +186,7 @@ export default class TableController {
   // public static getBookTable = async (req: Request, res: Response) => {
   //   try {
   //     const table: Table[] | null = await Table.findAll({
-  //       where: { del: false, t_status: TableStatus.BOOK },
+  //       where: { del: false, t_status: Constants.BOOK },
   //     });
 
   //     res.status(Code.Ok).json(Results.Success(Message.Ok, table));

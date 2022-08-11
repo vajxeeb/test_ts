@@ -1,13 +1,17 @@
-import { Model, Table, AutoIncrement, PrimaryKey, Column, AllowNull, NotEmpty, ForeignKey, DataType, BelongsTo, BeforeCreate, BeforeUpdate, AfterCreate, AfterUpdate }
+import { Model, Table, AutoIncrement, PrimaryKey, Column, AllowNull, NotEmpty, ForeignKey, DataType, BelongsTo, BeforeCreate, BeforeUpdate}
     from "sequelize-typescript";
 import Role from "./role.model";
-import CustomDate from './../services/date';
+import CustomDate from '../services/customdate';
+import { Constants } from "../services/constants";
 const bcrypt = require('bcrypt')
+
 @Table(
+
     {
         tableName: "tbl_user",
-        timestamps: true
+        timestamps: false
     }
+
 )
 export default class User extends Model {
 
@@ -23,38 +27,36 @@ export default class User extends Model {
 
     @AllowNull(false)
     @NotEmpty
-    @Column({ type: DataType.STRING})
+    @Column({ type: DataType.STRING(100), allowNull: false})
     password!: string;
 
-    //<===========Create Association========>
     @ForeignKey(() => Role)
     @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     role_id!: number;
+    
     @BelongsTo(() => Role)
     role!: Role;
 
-    //<====Delete status:true-> mean deleted, false-> mean not delete yet.]====>
     @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false, })
     del!: boolean
 
+    @Column({ type: DataType.DATE, defaultValue: CustomDate.getDateTime() })
+    createdAt!: Date
+
+    @Column({type: DataType.DATE, defaultValue: CustomDate.getDateTime() })
+    updatedAt!: Date
+
     @BeforeCreate
-    static createAt(user: User){
-        user.createdAt = CustomDate.getDate();
-        user.updatedAt = CustomDate.getDate();
-        // console.log(user)
-        // console.log("Create Sucess")
-        // console.log(user.createdAt);
-        // console.log(user.updatedAt)
+    static createdAt = async (user: User) => {
+        user.createdAt = await CustomDate.getDateTime();
+        user.updatedAt = await CustomDate.getDateTime();
+        user.password =  await bcrypt.hash(user.password, Constants.SALT)
     }
-    // @BeforeUpdate
-    // static async updateAt1(user: User){
-    //     user.password  = await bcrypt.hash(user.password, 10);
-    //     user.createdAt = await CustomDate.getDate();
-    //     console.log(user)
-    //     console.log("user password")
-    //     console.log(user.password)
-    //     console.log("updateAt")
-    //     console.log(user.updatedAt)
-    //     console.log(CustomDate.getDate())
-    // }
+    
+    @BeforeUpdate
+    static updatedAt = async (user: User) => {
+        user.updatedAt = await CustomDate.getDateTime();
+        user.password = await bcrypt.hash(user.password,  Constants.SALT)
+    }
 }
+

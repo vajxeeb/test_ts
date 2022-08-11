@@ -1,14 +1,16 @@
 
 export enum Message {
-    Ok = "OK",
-    Created ="Created Successfull ✔",
-    Updated = "Updated Successfull ✔",
-    Deleted = "Deleted Successfull ✔",
-    Notfound = "NotFound 🙌",
-    PasswordIncorrect = "Password Incorrect",
+    Ok = "Fetch data successfully ✅✅",
+    Fetched = "Fetch data successfully ✅✅",
+    Created ="Created Successfully  ✅✅",
+    Updated = "Updated Successfully ✅✅",
+    Deleted = "Deleted Successfully ✅✅",
+    Notfound = "NotFound ❌📛❌",
+    WrongPassword = "Wrong password ❌📛❌",
+    WrongUsername = "Wrong username ❌📛❌",
     AuthFailed = "Authorise Token Failed",
-    Logined = "Logined Successfull ✔",
-    Error = "Occure some error while processing. Error code 500 🤣"
+    Logined = "Logined Successfull ✅✅",
+    Error = "❌📛❌ Occure some error while processing. Error code 500 ❌📛❌"
 }
 export enum Code {
     Ok = 200,
@@ -40,6 +42,23 @@ export default class Results {
         return rs
     }
     public static Success(message: string, data: any): object {
+        const rs = {
+            message: message,
+            status: true,
+            data: data
+        }
+        return rs
+    }
+
+    public static fail(message: string, data: any): object {
+        const rs = {
+            message: message,
+            status: false,
+            data: data
+        }
+        return rs
+    }
+    public static success(message: string, data: any): object {
         const rs = {
             message: message,
             status: true,

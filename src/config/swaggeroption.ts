@@ -3,7 +3,7 @@ export const option = {
         openapi: "3.0.0",
         info: {
             title: "Library API",
-            version: "0.0.0",
+            version: "1.0.0",
             description: "Restaurant Management Api"
         },
         components: {
@@ -13,7 +13,7 @@ export const option = {
                     scheme: "bearer",
                     in: "header",
                     bearerFormat: "JWT"
-                },
+                }
             }
         }
         ,
@@ -23,9 +23,12 @@ export const option = {
         swagger: "0.0.0",
         servers: [
             {
-                url: `http://172.22.4.50:7000`
+                url: `http://localhost:7000`
+            },
+            {
+                url: `http://0.0.0.0:7000`
             }
         ],
     },
-    apis: ['./src/api-docs/*.ts']
+    apis: ['./src/docs/*.ts']
 }

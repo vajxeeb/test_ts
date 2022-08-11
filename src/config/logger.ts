@@ -1,6 +1,6 @@
 const log4js = require("log4js");
 module.exports = log4js.configure({
-    appenders: { cheese: { type: "file", filename: "src/logger/api.log" } },
+    appenders: { cheese: { type: "file", filename: "src/logs/api.log" } },
     categories: {
         default:
         {

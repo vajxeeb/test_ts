@@ -1,13 +1,13 @@
 
 
 import { Request, Response } from "express"
-import BillDetail from './../models/bill.detail.model';
-import { sequelize } from './../database';
-import Product from './../models/product.model';
-import { Code, Message } from "../services/message";
-import Results from './../services/message';
-import Bill from './../models/bill.model';
-import User from './../models/user.model';
+import BillDetail from '../models/bill.detail.model';
+import { sequelize } from '../database';
+import Product from '../models/product.model';
+import { Code, Message } from "../services/message-statusCode";
+import Results from '../services/message-statusCode';
+import Bill from '../models/bill.model';
+import User from '../models/user.model';
 import { Query } from "../query/queries";
 const { QueryTypes } = require("sequelize")
 export default class BillController {
@@ -15,28 +15,37 @@ export default class BillController {
     public static cancel = async (req: Request, res: Response) => {
 
         const { bill_id } = req.query
-        //START TRASACTION//    
+        /**
+         * START TRANSACTION
+         */
         const t = await sequelize.transaction();
         try {
-            //GET BILL PRODUCT ID AND QUANTITY FROM BILL DETAIL//
+             /**
+              * GET PRODUCT ID AND QUANTITY FROM BILLDETAIL
+              */
             const billdetail: BillDetail[] = await BillDetail.findAll(
                 {
                     attributes: ["product_id", "quantity"],
                     where: { bill_id, del: false, cancel: false }, transaction: t
                 })
-            //CONVERT DATA TO OBJECT//
             const billinfo = JSON.parse(JSON.stringify(billdetail))
-            //CHECK DATA
+            /**
+             * CHECK DATA OF BILL THAT IT EXIST OR NOT
+             */
             if (billinfo.length <= 0) {
                 res.status(Code.Notfound).json(Results.Fail(Message.Notfound, {}))
                 return;
             }
-            //CONATAIER PRODUCT ID TO LIST//
+           /**
+            * PUSH PRODUCT ID TO PRODUCT ID LIST
+            */
             const productId: Array<any> = [];
             for (let i = 0; i < billdetail.length; i++) {
                 productId.push(billdetail[i].product_id)
             }
-            //GET PRODUCT//
+            /**
+             * GET PRODUCT ID AND QUANTITY FROM  PRODUCT
+             */
             const product: Product[] = await Product.findAll(
                 {
                     attributes: ["product_id", "quantity"],
@@ -44,7 +53,9 @@ export default class BillController {
                 })
             const product2 = JSON.parse(JSON.stringify(product))
 
-            //ADD STOCK BACK TO PRODUCT AFTER CANCEL BILL//
+            /**
+             * UPDATE STOCK OF PRODUCT AFTER CANCEL BILL
+             */
             const addstock = []
             for (let j = 0; j < billinfo.length; j++) {
                 addstock.push(
@@ -57,15 +68,19 @@ export default class BillController {
             for (let i = 0; i < addstock.length; i++) {
                 await Product.update({ quantity: addstock[i].quantity }, { where: { product_id: addstock[i].product_id }, transaction: t },)
             }
-            //CANCEL//
+            /**
+             * CANCEL
+             */
             await BillDetail.update({ cancel: true }, { where: { bill_id }, transaction: t })
             await Bill.update({ cancel: true }, { where: { bill_id }, transaction: t })
-            //SUCCESS COMMIT AND RETURN RESPONSE
+            /**
+             * SUCCESS THEN COMMIT
+             */
             t.commit()
             res.status(Code.Ok).json(Results.Success(Message.Ok, billinfo));
 
         } catch (error: any) {
-            //ERROR OR NOT SUCCESS SOME PROCESS ROLLBACK DATA BACK.//
+           
             t.rollback()
             res.status(Code.Error).json(Results.Fail(error.message, {}))
         }
@@ -76,9 +91,9 @@ export default class BillController {
             const { bill_date, bill_number, cancel, page, size } = req.query
             let billCause = {}
             if (bill_number != "" && bill_number != undefined) {
-                billCause = {  cancel: cancel, bill_date: bill_date, bill_number: bill_number }
+                billCause = { cancel: cancel, bill_date: bill_date, bill_number: bill_number }
             } else {
-                billCause = {  cancel: cancel, bill_date: bill_date }
+                billCause = { cancel: cancel, bill_date: bill_date }
             }
             const bills: Bill[] = await Bill.findAll(
                 {
@@ -89,6 +104,7 @@ export default class BillController {
                 }
             )
             res.status(Code.Ok).json(Results.Success(Message.Ok, bills))
+
         } catch (error: any) {
             res.status(Code.Error).json(Results.Fail(error.message, {}))
         }
@@ -98,11 +114,11 @@ export default class BillController {
         try {
             const { bill_id } = req.query
 
-            const bills: Array<any> = await BillDetail.findAll(
+            const bills: Array<object> = await BillDetail.findAll(
                 {
 
                     attributes: ["bill_dt_id", "quantity"],
-                    where: {bill_id: bill_id },
+                    where: { bill_id: bill_id },
                     include: [
                         {
                             model: Product,
@@ -125,10 +141,12 @@ export default class BillController {
                 }
             )
             // const bills = await sequelize.query(Query.getbill, {type: QueryTypes.SELECT})
-            
+
             res.status(Code.Ok).json(Results.Success(Message.Ok, bills))
         } catch (error: any) {
             res.status(Code.Error).json(Results.Fail(error.message, {}))
         }
     }
+
+
 }

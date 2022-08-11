@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Code } from "../services/message";
+import { Code } from "../services/message-statusCode";
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -7,14 +7,11 @@ export default class CheckAuth {
 
   public static authWithToken = (req: Request, res: Response, next: NextFunction) => {
     try {
-      let token = req.headers.authorization?.split(" ")[1];
-      jwt.verify(token, process.env.JWT_KEY);
-      next();
+          let token = req.headers.authorization?.split(" ")[1];
+          jwt.verify(token, process.env.JWT_KEY);
+          next();
     } catch (err: any) {
-      return res.status(Code.AuthFailed).json({
-        message: err.message,
-        status: false
-      });
+          return res.status(Code.AuthFailed).json({message: err.message,status: false});
     }
   };
 
@@ -34,10 +31,7 @@ export default class CheckAuth {
         });
       }
     } catch (err: any) {
-      return res.status(Code.ApiKeyRequire).json({
-        message: err.message,
-        status: false
-      });
+      return res.status(Code.ApiKeyRequire).json({message: err.message,status: false});
     }
   }
 

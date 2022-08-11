@@ -106,21 +106,7 @@
  *    500:
  *       description: Some server error
  */
-//<============GET ALL USER ==========>
-/**
- * @swagger
- * /api/user/getall:
- *  post:
- *   summary: Get all user
- *   tags: [User]
- *   responses:
- *    200:
- *       description: OK
- *    401:
- *       description: Unauthorization
- *    500:
- *       description: Some server error
- */
+
  //<==========DELETE==================>
 /**
  * @swagger
@@ -142,6 +128,22 @@
  *       description: Not found user for delete
  *    401:
  *       description: Unauthorise
+ *    500:
+ *       description: Some server error
+ */
+
+//<============GET ALL USER ==========>
+/**
+ * @swagger
+ * /api/user/getall:
+ *  post:
+ *   summary: Get all user
+ *   tags: [User]
+ *   responses:
+ *    200:
+ *       description: OK
+ *    401:
+ *       description: Unauthorization
  *    500:
  *       description: Some server error
  */

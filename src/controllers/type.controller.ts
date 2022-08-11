@@ -1,8 +1,8 @@
 
 import { Request, Response } from "express"
-import { Message, Code } from "../services/message"
+import { Message, Code } from "../services/message-statusCode"
 import Type from "../models/type.model"
-import Results from './../services/message';
+import Results from '../services/message-statusCode';
 
 export default class TypeController {
     public static add = async (req: Request, res: Response) => {

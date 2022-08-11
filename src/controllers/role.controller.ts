@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { Message, Code } from "../services/message";
+import { Message, Code } from "../services/message-statusCode";
 import Role from "../models/role.model";
-import Results from './../services/message';
-import { sequelize } from './../database';
+import Results from '../services/message-statusCode';
+import { sequelize } from '../database';
 const { Transaction } = require('sequelize');
 
 export default class RoleController {
